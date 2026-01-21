@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { AppStep, Job, Task, RatingValue, CareerReport, TaskRating } from './types';
-import { generateTasksFromJobs, generateCareerReport } from './services/geminiService';
-import { ProgressBar } from './components/ProgressBar';
-import { JobInput } from './components/JobInput';
-import { TaskRater } from './components/TaskRater';
-import { ResultsDashboard } from './components/ResultsDashboard';
+import { AppStep, Job, Task, RatingValue, CareerReport, TaskRating } from './types.ts';
+import { generateTasksFromJobs, generateCareerReport } from './services/geminiService.ts';
+import { ProgressBar } from './components/ProgressBar.tsx';
+import { JobInput } from './components/JobInput.tsx';
+import { TaskRater } from './components/TaskRater.tsx';
+import { ResultsDashboard } from './components/ResultsDashboard.tsx';
 import { Sparkles } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -16,7 +16,6 @@ const App: React.FC = () => {
   const [report, setReport] = useState<CareerReport | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Auto-scroll to top when step changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [step]);
@@ -28,6 +27,7 @@ const App: React.FC = () => {
       setTasks(generatedTasks);
       setStep(AppStep.TASK_RATING);
     } catch (error) {
+      console.error(error);
       alert("Something went wrong generating tasks. Please try again.");
     } finally {
       setIsLoading(false);
@@ -47,6 +47,7 @@ const App: React.FC = () => {
       setReport(finalReport);
       setStep(AppStep.REPORT);
     } catch (error) {
+      console.error(error);
       alert("Failed to analyze your career data. Please try again.");
     } finally {
       setIsLoading(false);
@@ -63,7 +64,6 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 selection:bg-indigo-100 pb-20">
-      {/* Header */}
       <header className="bg-white/80 backdrop-blur-md sticky top-0 border-b border-slate-200 py-4 px-6 mb-8 z-30">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer group" onClick={handleReset}>
@@ -108,7 +108,6 @@ const App: React.FC = () => {
         )}
       </main>
 
-      {/* Footer */}
       <footer className="fixed bottom-0 left-0 w-full py-3 px-6 bg-white/50 backdrop-blur-sm border-t border-slate-100 text-[10px] text-center text-slate-400 z-10 pointer-events-none">
         &copy; {new Date().getFullYear()} JoyPath Career Intelligence • Empowering Professional Fulfillment
       </footer>

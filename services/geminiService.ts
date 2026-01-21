@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { Job, Task, TaskRating, CareerReport } from "../types";
+import { Job, Task, TaskRating, CareerReport } from "../types.ts";
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
 
@@ -27,7 +27,8 @@ export const generateTasksFromJobs = async (jobs: Job[]): Promise<Task[]> => {
   });
 
   try {
-    return JSON.parse(response.text);
+    const text = response.text || "[]";
+    return JSON.parse(text);
   } catch (error) {
     console.error("Failed to parse tasks", error);
     return [];
@@ -50,7 +51,7 @@ export const generateCareerReport = async (ratings: TaskRating[]): Promise<Caree
     2. Recommend up to 10 job titles.
     3. Assign a "Career Archetype".
     4. Provide a "Power Move".
-    5. NEW: Analyze "Environment Fit" - based on what they enjoy, should they be in a fast-paced startup, a stable corporation, a creative agency, or remote? What are culture "Warning Signs" they should avoid?`,
+    5. Analyze "Environment Fit" - based on what they enjoy, should they be in a fast-paced startup, a stable corporation, a creative agency, or remote? What are culture "Warning Signs" they should avoid?`,
     config: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -106,7 +107,8 @@ export const generateCareerReport = async (ratings: TaskRating[]): Promise<Caree
   });
 
   try {
-    return JSON.parse(response.text);
+    const text = response.text || "{}";
+    return JSON.parse(text);
   } catch (error) {
     console.error("Failed to parse report", error);
     throw new Error("Could not generate report");
