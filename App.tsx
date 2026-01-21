@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
-import { AppStep, Job, Task, RatingValue, CareerReport, TaskRating } from './types.ts';
-import { generateTasksFromJobs, generateCareerReport } from './services/geminiService.ts';
-import { ProgressBar } from './components/ProgressBar.tsx';
-import { JobInput } from './components/JobInput.tsx';
-import { TaskRater } from './components/TaskRater.tsx';
-import { ResultsDashboard } from './components/ResultsDashboard.tsx';
+import { AppStep, Job, Task, RatingValue, CareerReport, TaskRating } from './types';
+import { generateTasksFromJobs, generateCareerReport } from './services/geminiService';
+import { ProgressBar } from './components/ProgressBar';
+import { JobInput } from './components/JobInput';
+import { TaskRater } from './components/TaskRater';
+import { ResultsDashboard } from './components/ResultsDashboard';
 import { Sparkles } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -21,6 +20,7 @@ const App: React.FC = () => {
   }, [step]);
 
   const handleProcessJobs = async () => {
+    if (jobs.length === 0) return;
     setIsLoading(true);
     try {
       const generatedTasks = await generateTasksFromJobs(jobs);
